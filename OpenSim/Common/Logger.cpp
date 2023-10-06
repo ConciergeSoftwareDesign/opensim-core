@@ -213,7 +213,8 @@ bool Logger::shouldLog(Level level) {
     default:
         OPENSIM_THROW(Exception, "Internal error.");
     }
-    return defaultLogger->should_log(spdlogLevel);
+    return false;
+    // return defaultLogger->should_log(spdlogLevel);
 }
 
 void Logger::addFileSink(const std::string& filepath) {

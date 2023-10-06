@@ -488,6 +488,13 @@ void InverseKinematicsSolver::updateGoals(SimTK::State &s)
             _orientationAssemblyCondition->moveAllObservations(
                     orientationValues);
         }
+        if (_markersReference &&
+                _markersReference->getNumRefs() > 0) {
+            SimTK::Array_<SimTK::Vec3> markerValues;
+            nextTime = _markersReference->getNextValuesAndTime(markerValues);
+            s.setTime(nextTime);
+            _markerAssemblyCondition->moveAllObservations(markerValues);
+        }
         // update coordinates if any based on new time
         AssemblySolver::updateGoals(s);
         return;

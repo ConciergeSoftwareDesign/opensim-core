@@ -916,11 +916,14 @@ private:
         const auto* chanT = dynamic_cast<const Channel*>(&channel);
         if (!chanT) {
             std::stringstream msg;
+            auto channel_type_name = std::string("nullptr");
+            if (&channel != nullptr)
+                channel_type_name = channel.getTypeName();
             msg << "Type mismatch between Input and Output: Input '"
                 << getName() << "' of type " << getConnecteeTypeName()
                 << " cannot connect to Output (channel) '"
                 << channel.getPathName()
-                << "' of type " << channel.getTypeName() << ".";
+                << "' of type " << channel_type_name << ".";
             OPENSIM_THROW(Exception, msg.str());
         }
 

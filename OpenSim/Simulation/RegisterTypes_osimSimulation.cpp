@@ -140,7 +140,7 @@
 using namespace std;
 using namespace OpenSim;
 
-static osimSimulationInstantiator instantiator; 
+// static osimSimulationInstantiator instantiator; 
 
 //_____________________________________________________________________________
 /**
@@ -175,7 +175,7 @@ OSIMSIMULATION_API void RegisterTypes_osimSimulation()
     Object::registerType( Appearance());
     Object::registerType( ModelVisualPreferences());
 
-    Object::registerType(MarkersReference());
+    // Object::registerType(MarkersReference());
     Object::registerType(MarkerWeight());
     Object::registerType(Set<MarkerWeight>());
 

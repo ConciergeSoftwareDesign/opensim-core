@@ -20,7 +20,7 @@ endforeach()
 OpenSimAddLibrary(
     KIT Simulation
     AUTHORS "Ajay_Seth-Michael_Sherman-Ayman_Habib"
-    LINKLIBS ${Simbody_LIBRARIES} osimCommon osimLepton
+    LINKLIBS ${Simbody_STATIC_LIBRARIES} osimCommon osimLepton
     INCLUDES ${INCLUDES}
     SOURCES ${SOURCES}
     TESTDIRS SimbodyEngine Test

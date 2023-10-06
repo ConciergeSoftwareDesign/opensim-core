@@ -165,13 +165,24 @@ endfunction()
 SetDefaultCMakeInstallPrefix()
 SetDefaultCMakeBuildType()
 
+set(BUILD_USING_OTHER_LAPACK "" CACHE STRING
+    "Path to a LAPACK installation to use instead of building Simbody's LAPACK.")
+if(BUILD_USING_OTHER_LAPACK)
+    if(NOT EXISTS ${BUILD_USING_OTHER_LAPACK})
+        message(FATAL_ERROR "BUILD_USING_OTHER_LAPACK is set to ${BUILD_USING_OTHER_LAPACK}, but that path does not exist.")
+    else()
+        message(STATUS "Using LAPACK from ${BUILD_USING_OTHER_LAPACK}")
+    endif()
+endif()
+
 ####################### Add dependencies below.
 
 AddDependency(NAME       ezc3d
               DEFAULT    OFF
               GIT_URL    https://github.com/pyomeca/ezc3d.git
               GIT_TAG    Release_1.5.0
-              CMAKE_ARGS -DBUILD_EXAMPLE:BOOL=OFF)
+              CMAKE_ARGS -DBUILD_SHARED_LIBS:BOOL=OFF
+                         -DBUILD_EXAMPLE:BOOL=OFF)
 
 AddDependency(NAME       BTK
               DEFAULT    OFF
@@ -184,8 +195,10 @@ AddDependency(NAME       simbody
               DEFAULT    ON
               GIT_URL    https://github.com/simbody/simbody.git
               GIT_TAG    e855d954a786128c3271a3406d7bda782e7c4c4f
-              CMAKE_ARGS -DBUILD_EXAMPLES:BOOL=OFF
-                         -DBUILD_TESTING:BOOL=OFF)
+              CMAKE_ARGS -DBUILD_STATIC_LIBRARIES:BOOL=ON
+                         -DBUILD_EXAMPLES:BOOL=OFF
+                         -DBUILD_TESTING:BOOL=OFF
+                         -DBUILD_USING_OTHER_LAPACK:STRING=${BUILD_USING_OTHER_LAPACK})
 
 AddDependency(NAME       docopt
               DEFAULT    ON

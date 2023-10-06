@@ -81,9 +81,9 @@ private:
  * @author Ajay Seth
  */
 class OSIMSIMULATION_API MarkersReference
-        : public Reference_<SimTK::Vec3> {
+        : public StreamableReference_<SimTK::Vec3> {
     OpenSim_DECLARE_CONCRETE_OBJECT(
-            MarkersReference, Reference_<SimTK::Vec3>);
+            MarkersReference, StreamableReference_<SimTK::Vec3>);
     //=============================================================================
 // Properties
 //=============================================================================
@@ -143,9 +143,15 @@ public:
     SimTK::Vec2 getValidTimeRange() const override;
     /** get the names of the markers serving as references */
     const SimTK::Array_<std::string>& getNames() const override;
+    virtual bool hasNext() const override { return false; };
     /** get the value of the MarkersReference  */
     void getValuesAtTime(
             double time, SimTK::Array_<SimTK::Vec3> &values) const override;
+    virtual double getNextValuesAndTime(SimTK::Array_<SimTK::Vec3>& values) override {
+        throw Exception("getNextValuesAndTime method is not supported for this "
+                        "reference {}.",
+                this->getName());
+    };
     // The following two methods are commented out as they are not implemented
     // and we don't want users to think it *is* implemented when viewing
     // doxygen.

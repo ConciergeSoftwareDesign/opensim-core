@@ -42,5 +42,10 @@ public:
     }
 };
 
-static osimInstantiator instantiator;
+extern "C" {
+    static void osim_initialize() {
+        static osimInstantiator instantiator;
+    }
+}
+
 #endif // _opensim_h_
