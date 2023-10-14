@@ -36,16 +36,22 @@ static void initializeLogger(spdlog::logger& l, const char* pattern) {
 }
 
 // cout logger will be initialized during static initialization time
-static std::shared_ptr<spdlog::logger> coutLogger =
-        spdlog::stdout_color_mt("cout");
+static std::shared_ptr<spdlog::logger> coutLogger = nullptr;
+        // spdlog::stdout_color_mt("cout");
 
 // default logger will be initialized during static initialization time
-static std::shared_ptr<spdlog::logger> defaultLogger =
-        spdlog::default_logger();
+static std::shared_ptr<spdlog::logger> defaultLogger = nullptr;
+        // spdlog::default_logger();
 
 // this function returns a dummy value so that it can be used in an assignment
 // expression (below) that *must* be executed in-order at static init time
 static bool initializeLogging() {
+    if (coutLogger != nullptr) {
+        return true;
+    }
+
+    coutLogger = spdlog::stdout_color_mt("cout");
+    defaultLogger = spdlog::default_logger();
     initializeLogger(*coutLogger, "%v");
     initializeLogger(*defaultLogger, "[%l] %v");
     spdlog::flush_on(spdlog::level::info);
@@ -54,7 +60,7 @@ static bool initializeLogging() {
 
 // initialization of this variable will have the side-effect of completing the
 // initialization of logging
-static bool otherStaticInit = initializeLogging();
+// static bool otherStaticInit = initializeLogging();
 
 // the file log sink (e.g. `opensim.log`) is lazily initialized.
 //
@@ -201,6 +207,8 @@ std::string Logger::getLevelString() {
 }
 
 bool Logger::shouldLog(Level level) {
+    initializeLogging();
+
     spdlog::level::level_enum spdlogLevel;
     switch (level) {
     case Level::Off: spdlogLevel = spdlog::level::off; break;
@@ -213,8 +221,7 @@ bool Logger::shouldLog(Level level) {
     default:
         OPENSIM_THROW(Exception, "Internal error.");
     }
-    return false;
-    // return defaultLogger->should_log(spdlogLevel);
+    return defaultLogger->should_log(spdlogLevel);
 }
 
 void Logger::addFileSink(const std::string& filepath) {
