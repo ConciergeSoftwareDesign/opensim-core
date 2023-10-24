@@ -129,7 +129,7 @@ if(OPENSIM_WITH_TROPTER)
             tropter/TropterProblem.cpp
             )
 endif ()
-add_library(osimMoco ${MOCO_SOURCES})
+add_library(osimMoco SHARED ${MOCO_SOURCES})
 target_link_libraries(osimMoco PUBLIC osimTools)
 if (OPENSIM_WITH_CASADI)
     target_link_libraries(osimMoco PRIVATE casadi)

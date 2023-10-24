@@ -193,7 +193,7 @@ function(OpenSimAddLibrary)
         -DOPENSIM_${OSIMADDLIB_UKIT}_BUILD_VERSION=${OPENSIM_PATCH_VERSION}
         -DOPENSIM_${OSIMADDLIB_UKIT}_COPYRIGHT_YEARS="2005-2017"
         -DOPENSIM_${OSIMADDLIB_UKIT}_AUTHORS="${AUTHORS}"
-        -DOPENSIM_${OSIMADDLIB_UKIT}_TYPE="Static"
+        -DOPENSIM_${OSIMADDLIB_UKIT}_TYPE="Shared"
         )
 
 
@@ -202,7 +202,7 @@ function(OpenSimAddLibrary)
     # These next few lines are the most important:
 
     # Create the library using the provided source and include files.
-    add_library(${OSIMADDLIB_LIBRARY_NAME}
+    add_library(${OSIMADDLIB_LIBRARY_NAME} SHARED
         ${OSIMADDLIB_SOURCES} ${OSIMADDLIB_INCLUDES})
 
     target_include_directories(${OSIMADDLIB_LIBRARY_NAME} 
@@ -505,7 +505,7 @@ function(OpenSimAddPluginExampleCXX)
     cmake_parse_arguments(OSIMEX
             "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    add_library(osim${OSIMEX_NAME}
+    add_library(osim${OSIMEX_NAME} SHARED
             ${OSIMEX_NAME}.h
             ${OSIMEX_NAME}.cpp
             osim${OSIMEX_NAME}DLL.h

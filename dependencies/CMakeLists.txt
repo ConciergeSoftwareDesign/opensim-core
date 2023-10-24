@@ -195,8 +195,7 @@ AddDependency(NAME       simbody
               DEFAULT    ON
               GIT_URL    https://github.com/simbody/simbody.git
               GIT_TAG    e855d954a786128c3271a3406d7bda782e7c4c4f
-              CMAKE_ARGS -DBUILD_STATIC_LIBRARIES:BOOL=ON
-                         -DBUILD_EXAMPLES:BOOL=OFF
+              CMAKE_ARGS -DBUILD_EXAMPLES:BOOL=OFF
                          -DBUILD_TESTING:BOOL=OFF
                          -DBUILD_USING_OTHER_LAPACK:STRING=${BUILD_USING_OTHER_LAPACK})
 
